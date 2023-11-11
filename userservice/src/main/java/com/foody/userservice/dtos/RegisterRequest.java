@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RegisterRequest {
     private  String name;
+    private  String userName;
     private String address;
     private String password;
     private Location curretLocation;

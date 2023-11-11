@@ -19,6 +19,7 @@ public class User {
     @Id
     private String id;
     private  String name;
+    private String userName;
     private String address;
     private String password;
     private Location curretLocation;
