@@ -58,15 +58,15 @@ public class RestaurantService {
         //check restorent with same name and id is already present if  yes dont allow to create
         return restaurantRepository.findByNameAndOwnerId(id, restaurantDto.getOwnerId())
                 .flatMap(x -> Mono.error(new RuntimeException(String.format("Restaurant Already added with name {} associated user {} ", restaurantDto.getName(), restaurantDto.getOwnerId()))))
-                .switchIfEmpty(restaurantRepository.save(dtoToEntity(restaurantDto)))
-                .map(x -> (RestaurantDto) x);
+                .switchIfEmpty(restaurantRepository.save(dtoToEntity(restaurantDto)).map(RestaurantService::entityToDto))
+                .map(x->(RestaurantDto)x);
 
     }
 
     public Mono<RestaurantDto> update(RestaurantDto restaurantDto) {
         //todo:validate ownerId and context user id is match
         //check restorent with same name and id is already present if  yes dont allow to create
-        return restaurantRepository.findByNameAndOwnerId(restaurantDto.getId(), restaurantDto.getOwnerId())
+        return restaurantRepository.findByNameAndOwnerId(restaurantDto.getName(), restaurantDto.getOwnerId())
                 .flatMap(x -> restaurantRepository.save(dtoToEntity(restaurantDto)))
                 .switchIfEmpty(Mono.error(new RuntimeException("Restaurant Not resent with name "+restaurantDto.getName()+" associated user  "+restaurantDto.getOwnerId())))
                 .map(RestaurantService::entityToDto);

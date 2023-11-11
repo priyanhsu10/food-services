@@ -26,9 +26,9 @@ private final RestaurantService restaurantService;
     }
 
     @RequestMapping("/all/{userid}")
-    public Flux<RestaurantDto> getAll(@PathVariable String userId){
+    public Flux<RestaurantDto> getAll(@PathVariable String userid){
 
-        return restaurantService.getAll(userId);
+        return restaurantService.getAll(userid);
     }
 
 
@@ -37,7 +37,7 @@ private final RestaurantService restaurantService;
 
         return restaurantService.get(id);
     }
-    @PostMapping("/{id}")
+    @PostMapping("/{ownerId}")
     public Mono<ResponseEntity<RestaurantDto>> create(@Valid @RequestBody CreateRequest createRequest, @PathVariable String ownerId){
 
         return restaurantService.create(ownerId,RestaurantDto.create(createRequest))
